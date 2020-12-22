@@ -1,7 +1,7 @@
 ﻿{
   "Name": "FertilizerAnytime",
   "Author": "stoobinator",
-  "Version": "1.0.0",
+  "Version": "1.1.0",
   "Description": "Allows you to use all fertilizer types after plants are already growing",
   "UniqueID": "stoobinator.fertilizeranytime",
   "EntryDll": "FertilizerAnytime.dll",

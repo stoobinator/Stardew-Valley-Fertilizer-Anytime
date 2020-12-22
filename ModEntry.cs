@@ -21,9 +21,14 @@ namespace FertilizerAnytime
         private const int BasicFertilizer = 368;
 
         /// <summary>
-        /// Item index that corresponds to basic fertilizer
+        /// Item index that corresponds to quality fertilizer
         /// </summary>
         private const int QualityFertilizer = 369;
+
+        /// <summary>
+        /// Item index that corresponds to deluxe fertilizer
+        /// </summary>
+        private const int DeluxeFertilizer = 919;
         #endregion
 
         #region Fields
@@ -153,9 +158,9 @@ namespace FertilizerAnytime
                 if (location.isCropAtTile((int)tileToFertilize.X, (int)tileToFertilize.Y)
                     && IsValidTileAndItem(location, tileToFertilize, player.CurrentItem, out HoeDirt dirt))
                 {
-                    player.removeItemsFromInventory(player.CurrentItem.parentSheetIndex, 1);
                     location.playSound("dirtyHit");
-                    dirt.fertilizer.Value = player.CurrentItem.parentSheetIndex.Value;
+                    dirt.fertilizer.Value = player.CurrentItem.ParentSheetIndex;
+                    player.removeItemsFromInventory(player.CurrentItem.ParentSheetIndex, 1);
                 }
             }
         }
@@ -174,7 +179,7 @@ namespace FertilizerAnytime
         private static bool IsValidTileAndItem(GameLocation location, Vector2 tile, Item item, out HoeDirt outDirt)
         {
             if (item != null
-                && (item.ParentSheetIndex == BasicFertilizer || item.ParentSheetIndex == QualityFertilizer)
+                && IsItemFertilizer(item)
                 && location.terrainFeatures.ContainsKey(tile)
                 && location.terrainFeatures[tile] is HoeDirt dirt
                 && dirt.fertilizer.Value == 0
@@ -185,6 +190,18 @@ namespace FertilizerAnytime
             }
             outDirt = null;
             return false;
+        }
+
+        /// <summary>
+        /// Checks whether an item is one of the three affected fertilizers
+        /// </summary>
+        /// <param name="item">Item currently held by the player</param>
+        /// <returns></returns>
+        private static bool IsItemFertilizer(Item item)
+        {
+            return item.ParentSheetIndex == BasicFertilizer
+                || item.ParentSheetIndex == QualityFertilizer
+                || item.ParentSheetIndex == DeluxeFertilizer;
         }
 
         /// <summary>
